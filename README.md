@@ -15,6 +15,9 @@ It also requires access to a GitHub account and an OpenAI API key.
 
 ## Usage
 
+You will need to edit the script to enter your repositories and org.
+
+
 To use this script, clone the repository and navigate to its directory in your terminal. Then, run the following command:
 
 `python3 review.py`
