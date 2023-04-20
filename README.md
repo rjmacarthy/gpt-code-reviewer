@@ -1,6 +1,6 @@
 # gpt-code-reviewer
 
-Code Review Bot is a Python script that automates the code review process using OpenAI's GPT-3.5 language model. It interacts with users through a command line interface and GitHub API to retrieve code for review.
+got-code-reviewer is a Python script that automates the code review process using OpenAI's GPT-3.5 language model. It interacts with users through a command line interface and GitHub API to retrieve code for review.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ You will need to edit the script to enter your repositories and org.
 
 To use this script, clone the repository and navigate to its directory in your terminal. Then, run the following command:
 
-`python3 review.py`
+`python3 main.py`
 
 The script will prompt you to select a repository and pull request to review. You will then be prompted to enter 'r' to review the code, 'q' to quit, 'h' for help, and 'n' to review a different pull request.
 
