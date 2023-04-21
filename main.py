@@ -5,6 +5,8 @@ from rich.markdown import Markdown
 import requests
 import yaml
 
+from prompts import get_code_prompt, get_system_prompt
+
 
 config = yaml.safe_load(open("config.yaml"))
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
@@ -14,15 +16,6 @@ repositories = config["repositories"]
 model_engine = "gpt-3.5-turbo"
 
 console = Console()
-
-
-def system_prompt():
-    return """
-    You are an awesome software engineer. You specialise in reviewing code.
-    When you review the code only check the syntax and the logic. Do not refer to related pull requests.
-    Do not mention any other dependencies or pull requests.
-    Do not mention documentation or tests.
-    """
 
 
 def send_system_message(messages):
@@ -72,11 +65,11 @@ def review():
     if not pull_request:
         get_repo_and_pr()
 
-    messages = [{"role": "system", "content": system_prompt()}]
+    messages = [{"role": "system", "content": get_system_prompt()}]
 
-    print("Loading sky net...")
+    print("Loading Skynet...")
     send_system_message(messages)
-    print("Sky net loaded!")
+    print("Skynet loaded!")
 
     data = get_prompt(repository, pull_request, "application/vnd.github.v3+json")
     messages.append({"role": "user", "content": data.json()["body"]})
@@ -94,7 +87,7 @@ def review():
             )
 
         if user_input == "n":
-            messages = [{"role": "system", "content": system_prompt()}]
+            messages = [{"role": "system", "content": get_system_prompt()}]
             repository, pull_request = get_repo_and_pr()
             data = get_prompt(
                 repository, pull_request, "application/vnd.github.v3+json"
@@ -110,14 +103,11 @@ def review():
             response = get_prompt(repository, pull_request)
 
             max_len = 4097
-            code = response.text[: max_len - 500]
+            code = response.text[: max_len - 600]
 
-            message = f"""
-            Review the code: ```{code}```. check the syntax and the logic. Do not refer to related pull requests, tests or documentation.
-            Recommend improvements to the code to make it cleaner and more maintainable.  Other things you can recommend are: naming conventions etc. {config["preferences"]}
-            """
+            prompt = get_code_prompt(code)
 
-            messages.append({"role": "user", "content": message})
+            messages.append({"role": "user", "content": prompt})
 
         if user_input:
             messages.append({"role": "user", "content": user_input})
