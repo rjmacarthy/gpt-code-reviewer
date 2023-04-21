@@ -15,6 +15,8 @@ It also requires access to a GitHub account and an OpenAI API key.
 
 ## Usage
 
+You need to set two environment variables `GITHUB_TOKEN` and `OPENAI_API_KEY`.
+
 Clone the repository and navigate to its directory in your terminal. Then, run the following command:
 
 `cp config.yaml.example config.yaml`
