@@ -4,3 +4,4 @@ repositories: [
   "repository3"
 ]
 user: "rjmacarthy"
+preferences: "Focus on naming conventions when reviewing the code"

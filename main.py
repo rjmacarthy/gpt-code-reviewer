@@ -73,7 +73,10 @@ def review():
         get_repo_and_pr()
 
     messages = [{"role": "system", "content": system_prompt()}]
+
+    print("Loading sky net...")
     send_system_message(messages)
+    print("Sky net loaded!")
 
     data = get_prompt(repository, pull_request, "application/vnd.github.v3+json")
     messages.append({"role": "user", "content": data.json()["body"]})
@@ -110,8 +113,8 @@ def review():
             code = response.text[: max_len - 500]
 
             message = f"""
-            Review the code: ```{code}```. only check the syntax and the logic. Do not refer to related pull requests, tests or documentation.
-            You are encouraged to suggest improvements to the code such as making it cleaner and more maintainable.
+            Review the code: ```{code}```. check the syntax and the logic. Do not refer to related pull requests, tests or documentation.
+            Recommend improvements to the code to make it cleaner and more maintainable.  Other things you can recommend are: naming conventions etc. {config["preferences"]}
             """
 
             messages.append({"role": "user", "content": message})
