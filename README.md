@@ -4,18 +4,13 @@ gpt-code-reviewer is a Python script that automates the code review process usin
 
 ## Requirements
 
-This script requires the following Python packages:
+The script requires access to a GitHub account and an OpenAI API key.
 
-- os
-- openai
-- rich
-- requests
-
-It also requires access to a GitHub account and an OpenAI API key.
+You'll need to set two environment variables `GITHUB_TOKEN` and `OPENAI_API_KEY`.
 
 ## Usage
 
-You need to set two environment variables `GITHUB_TOKEN` and `OPENAI_API_KEY`.
+
 
 Clone the repository and navigate to its directory in your terminal. Then, run the following command:
 
