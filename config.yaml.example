@@ -1,0 +1,6 @@
+repositories: [
+  "repository1",
+  "repository2",
+  "repository3"
+]
+user: "rjmacarthy"

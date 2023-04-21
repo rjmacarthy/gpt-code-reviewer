@@ -3,11 +3,14 @@ import openai
 from rich.console import Console
 from rich.markdown import Markdown
 import requests
+import yaml
 
 
+config = yaml.safe_load(open("config.yaml"))
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 openai.api_key = os.getenv("OPENAI_API_KEY")
-org = "org"
+user = config["user"]
+repositories = config["repositories"]
 model_engine = "gpt-3.5-turbo"
 
 console = Console()
@@ -28,17 +31,10 @@ def send_system_message(messages):
 
 
 def get_prompt(repository, pull_request, accept="application/vnd.github.v3.diff"):
-    url = f"https://api.github.com/repos/{org}/{repository}/pulls/{pull_request}"
+    url = f"https://api.github.com/repos/{user}/{repository}/pulls/{pull_request}"
     headers = {"Accept": accept, "Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
     return response
-
-
-repositories = [
-    "repository1",
-    "repository2",
-    "repository3",
-]
 
 
 def get_repo_and_pr():

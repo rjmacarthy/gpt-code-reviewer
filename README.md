@@ -15,10 +15,13 @@ It also requires access to a GitHub account and an OpenAI API key.
 
 ## Usage
 
-You will need to edit the script to enter your repositories and org.
+Clone the repository and navigate to its directory in your terminal. Then, run the following command:
 
+`cp config.yaml.example config.yaml`
 
-To use this script, clone the repository and navigate to its directory in your terminal. Then, run the following command:
+Edit `config.yaml` to suit your needs.
+
+Run this command to start the application.
 
 `python3 main.py`
 
