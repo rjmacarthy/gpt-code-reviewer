@@ -13,7 +13,7 @@ def get_code_prompt(code):
   - Provide security recommendations if there are any.
   - Provide details on missed use of best-practices.
   - Provide details about potential bugs.
-  - DO NOT comments, documentation or tests, dependencies or related pull requests.
+  - DO NOT mention comments, documentation or tests, dependencies or related pull requests.
   - Reply in markdown format.
   - ALWAYS RECOMMEND SUGGESTIONS TO IMPROVE THE CODE TO MAKE IT CLEANER AND MORE MAINTAINABLE.
   """
