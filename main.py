@@ -1,7 +1,7 @@
 import os
 import openai
 from rich.console import Console
-from rich.markdown import Markdown
+from rich.markdown import Markdown, TextElement
 import requests
 import yaml
 
@@ -17,6 +17,14 @@ model_engine = "gpt-3.5-turbo"
 
 console = Console()
 
+def print_options(repository, pull_request):
+    console.print(
+        Markdown(
+            f"""You have chosen to review {repository} pull request {pull_request} enter 
+            `r` to review the code, `q` to quit, `h` for help and `n` 
+            to review a different pull request"""
+        )
+    )
 
 def send_system_message(messages):
     response = openai.ChatCompletion.create(model=model_engine, messages=messages)
@@ -56,11 +64,7 @@ def get_repo_and_pr():
 def review():
     repository, pull_request = get_repo_and_pr()
 
-    console.print(
-        Markdown(
-            f"You have chosen to review {repository} pull request {pull_request} enter 'r' to review the code, 'q' to quit, 'h' for help and 'n' to review a different pull request"
-        )
-    )
+    print_options(repository, pull_request)
 
     if not pull_request:
         get_repo_and_pr()
@@ -82,8 +86,8 @@ def review():
             break
 
         if user_input == "h":
-            print(
-                'Enter "r" to review the code, "q" to quit and "n" to review a different pull request'
+            console.print(
+                Markdown("Enter "r" to review the code, `q` to quit and `n` to review a different pull request")
             )
 
         if user_input == "n":
@@ -94,9 +98,7 @@ def review():
             )
             messages.append({"role": "user", "content": data.json()["body"]})
             messages.append({"role": "user", "content": data.json()["title"]})
-            print(
-                f"You have chosen to review {repository} pull request {pull_request} enter 'r' to review the code, 'q' to quit, 'h' for help and 'n' to review a different pull request"
-            )
+            print_options(repository, pull_request)
             continue
 
         if user_input == "r":
