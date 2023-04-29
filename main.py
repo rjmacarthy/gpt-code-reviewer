@@ -25,7 +25,7 @@ def print_options(repository, pull_request):
     console.print(
         Markdown(
             f"""You have chosen to review {repository} pull request {pull_request} 
-                enter 'r' to review the code, 'q' to quit, 'h' for help and 'n' 
+                enter `r` to review the code, `q` to quit, `h` for help and `n` 
                 to review a different pull request"""
         )
     )
@@ -46,7 +46,7 @@ def get_prompt(repository, pull_request, accept="application/vnd.github.v3.diff"
 def get_repo_and_pr():
     console.print("Select a repository:")
     for index, repo in enumerate(repositories):
-        print(f"{index + 1}. {repo}")
+        console.print(f"{index + 1}. {repo}")
     selection = None
     while selection is None:
         try:
@@ -120,6 +120,7 @@ def review():
             messages.append({"role": "user", "content": prompt})
 
         if user_input:
+            console.print("Thinking...")
             messages.append({"role": "user", "content": user_input})
 
         completion = openai.ChatCompletion.create(
