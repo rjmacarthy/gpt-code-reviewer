@@ -16,6 +16,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 user = config["user"]
 repositories = config["repositories"]
 MODEL_ENGINE = "gpt-3.5-turbo"
+MAX_LENGTH = 4096
 
 console = Console()
 
@@ -109,10 +110,10 @@ def review():
             continue
 
         if user_input == "r":
+            console.print("Thinking...")
             response = get_prompt(repository, pull_request)
 
-            max_len = 4097
-            code = response.text[: max_len - 600]
+            code = response.text[: MAX_LENGTH - len(get_code_prompt(""))]
 
             prompt = get_code_prompt(code)
 
