@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+disable = C0116,C0327,E0015,C0114
+
+[BASIC]
+indentation_char = space
+indentation_size = 4
+
+[FORMAT]
+max-line-length = 120

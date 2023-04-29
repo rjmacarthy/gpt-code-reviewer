@@ -1,45 +1,49 @@
 import os
 import openai
-from rich.console import Console
-from rich.markdown import Markdown, TextElement
 import requests
 import yaml
+
+from rich.console import Console
+from rich.markdown import Markdown
+
 
 from prompts import get_code_prompt, get_system_prompt
 
 
-config = yaml.safe_load(open("config.yaml"))
+config = yaml.safe_load(open("config.yaml", "r", encoding="utf-8"))
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 user = config["user"]
 repositories = config["repositories"]
-model_engine = "gpt-3.5-turbo"
+MODEL_ENGINE = "gpt-3.5-turbo"
 
 console = Console()
+
 
 def print_options(repository, pull_request):
     console.print(
         Markdown(
-            f"""You have chosen to review {repository} pull request {pull_request} enter 
-            `r` to review the code, `q` to quit, `h` for help and `n` 
-            to review a different pull request"""
+            f"""You have chosen to review {repository} pull request {pull_request} 
+                enter 'r' to review the code, 'q' to quit, 'h' for help and 'n' 
+                to review a different pull request"""
         )
     )
 
+
 def send_system_message(messages):
-    response = openai.ChatCompletion.create(model=model_engine, messages=messages)
+    response = openai.ChatCompletion.create(model=MODEL_ENGINE, messages=messages)
     return response
 
 
 def get_prompt(repository, pull_request, accept="application/vnd.github.v3.diff"):
     url = f"https://api.github.com/repos/{user}/{repository}/pulls/{pull_request}"
     headers = {"Accept": accept, "Authorization": f"token {GITHUB_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=10)
     return response
 
 
 def get_repo_and_pr():
-    print("Select a repository:")
+    console.print("Select a repository:")
     for index, repo in enumerate(repositories):
         print(f"{index + 1}. {repo}")
     selection = None
@@ -87,8 +91,11 @@ def review():
 
         if user_input == "h":
             console.print(
-                Markdown("Enter "r" to review the code, `q` to quit and `n` to review a different pull request")
+                Markdown(
+                    "Enter `r` to review the code, `q` to quit and `n` to review a different pull request"
+                )
             )
+            continue
 
         if user_input == "n":
             messages = [{"role": "system", "content": get_system_prompt()}]
@@ -115,7 +122,7 @@ def review():
             messages.append({"role": "user", "content": user_input})
 
         completion = openai.ChatCompletion.create(
-            model=model_engine,
+            model=MODEL_ENGINE,
             messages=messages,
         )
 
