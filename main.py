@@ -15,7 +15,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 user = config["user"]
 repositories = config["repositories"]
-MODEL_ENGINE = "gpt-3.5-turbo"
+MODEL_ENGINE = config["model_engine"]
 MAX_LENGTH = 4096
 
 console = Console()
@@ -44,24 +44,24 @@ def get_prompt(repository, pull_request, accept="application/vnd.github.v3.diff"
 
 
 def get_repo_and_pr():
-    console.print("Select a repository:")
-    for index, repo in enumerate(repositories):
-        console.print(f"{index + 1}. {repo}")
-    selection = None
-    while selection is None:
+    while True:
+        console.print("Select a repository:")
+        for index, repo in enumerate(repositories):
+            console.print(f"{index + 1}. {repo}")
+
         try:
             selection = int(input("Enter the number of the repository: "))
-            if selection < 1 or selection > len(repositories):
-                raise ValueError
+            if 1 <= selection <= len(repositories):
+                repository = repositories[selection - 1]
+                break
         except ValueError:
-            console.print(
-                "Invalid input. Please enter a number between 1 and", len(repositories)
-            )
-            selection = None
+            pass
 
-    repository = repositories[selection - 1]
+        console.print(
+            f"Invalid input. Please enter a number between 1 and {len(repositories)}"
+        )
 
-    pull_request = input("Enter the number of the pull request: ")
+    pull_request = input("Enter the number of the pull request: ").strip()
 
     return repository, pull_request
 

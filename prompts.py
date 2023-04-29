@@ -17,7 +17,6 @@ def get_system_prompt():
     """
 
 
-
 def get_code_prompt(code: str) -> str:
     return f"""
     # Code Review Prompt
