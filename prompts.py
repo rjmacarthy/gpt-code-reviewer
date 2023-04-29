@@ -16,7 +16,7 @@ def get_code_prompt(code: str) -> str:
     return f"""
     # Code Review Prompt
 
-    As a top-class software engineer, review the following code:
+    As a highly skilled software engineer, review the following code:
 
     ```
     {code}
