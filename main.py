@@ -54,7 +54,9 @@ def get_repo_and_pr():
             if selection < 1 or selection > len(repositories):
                 raise ValueError
         except ValueError:
-            console.print("Invalid input. Please enter a number between 1 and", len(repositories))
+            console.print(
+                "Invalid input. Please enter a number between 1 and", len(repositories)
+            )
             selection = None
 
     repository = repositories[selection - 1]
