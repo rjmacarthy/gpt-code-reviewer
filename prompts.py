@@ -28,8 +28,10 @@ def get_code_prompt(code: str) -> str:
     3. Clarification of complex or hard-to-understand code sections.
     4. Optimization suggestions, considering time complexity and performance.
     5. Potential bugs and issues.
+    6. If you have multiple comments format them as a numbered list.
+    7. If you have suggestions to improve the code please always give an example along with your feedback.
 
-    Organize your feedback using numbered lists, present it in markdown format, and refrain from mentioning:
+    Present it in markdown format, and refrain from mentioning:
     - Adding comments or documentation
     - Adding dependencies or related pull requests
 

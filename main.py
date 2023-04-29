@@ -26,7 +26,7 @@ def print_options(repository, pull_request):
         Markdown(
             f"""You have chosen to review {repository} pull request {pull_request} 
                 enter `r` to review the code, `q` to quit, `h` for help and `n` 
-                to review a different pull request"""
+                to review a different pull request."""
         )
     )
 
@@ -93,7 +93,7 @@ def review():
         if user_input == "h":
             console.print(
                 Markdown(
-                    "Enter `r` to review the code, `q` to quit and `n` to review a different pull request"
+                    "Enter `r` to review the code, `q` to quit and `n` to review a different pull request."
                 )
             )
             continue
@@ -110,7 +110,6 @@ def review():
             continue
 
         if user_input == "r":
-            console.print("Thinking...")
             response = get_prompt(repository, pull_request)
 
             code = response.text[: MAX_LENGTH - len(get_code_prompt(""))]
