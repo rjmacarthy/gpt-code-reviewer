@@ -2,6 +2,7 @@ import os
 import openai
 import requests
 import yaml
+import tiktoken
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -16,12 +17,28 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 user = config["user"]
 repositories = config["repositories"]
 MODEL_ENGINE = config["model_engine"]
-MAX_LENGTH = 4096
+MAX_LENGTH = 3500
 
 console = Console()
+encoding = tiktoken.encoding_for_model(MODEL_ENGINE)
 
 
-def print_options(repository, pull_request):
+def count_tokens(string: str) -> int:
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
+
+
+def get_truncated_diff(diff: str, num_template_tokens: int) -> str:
+    if count_tokens(diff) > MAX_LENGTH - num_template_tokens:
+        encoded_diff = encoding.encode(diff)
+        truncated_diff = encoding.decode(
+            encoded_diff[: MAX_LENGTH - num_template_tokens * 2]
+        )
+        return truncated_diff
+    return diff
+
+
+def print_options(repository: str, pull_request: str):
     console.print(
         Markdown(
             f"""You have chosen to review {repository} pull request {pull_request} 
@@ -31,19 +48,21 @@ def print_options(repository, pull_request):
     )
 
 
-def send_system_message(messages):
+def send_system_message(messages: list) -> openai.ChatCompletion:
     response = openai.ChatCompletion.create(model=MODEL_ENGINE, messages=messages)
     return response
 
 
-def fetch_data(repository, pull_request, accept="application/vnd.github.v3.diff"):
+def fetch_data(
+    repository: str, pull_request: str, accept="application/vnd.github.v3.diff"
+) -> requests.Response:
     url = f"https://api.github.com/repos/{user}/{repository}/pulls/{pull_request}"
     headers = {"Accept": accept, "Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers, timeout=10)
     return response
 
 
-def get_repo_and_pr():
+def get_repo_and_pr() -> tuple:
     while True:
         console.print("Select a repository:")
         for index, repo in enumerate(repositories):
@@ -112,9 +131,9 @@ def review():
         if user_input == "r":
             response = fetch_data(repository, pull_request)
 
-            code = response.text[: MAX_LENGTH - len(get_diff_prompt(""))]
+            num_template_tokens = count_tokens(get_diff_prompt(""))
 
-            prompt = get_diff_prompt(code)
+            prompt = get_diff_prompt(get_truncated_diff(response.text, num_template_tokens))
 
             messages.append({"role": "user", "content": prompt})
 
