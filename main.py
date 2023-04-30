@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 
 
-from prompts import get_code_prompt, get_system_prompt
+from prompts import get_diff_prompt, get_system_prompt
 
 
 config = yaml.safe_load(open("config.yaml", "r", encoding="utf-8"))
@@ -112,9 +112,9 @@ def review():
         if user_input == "r":
             response = fetch_data(repository, pull_request)
 
-            code = response.text[: MAX_LENGTH - len(get_code_prompt(""))]
+            code = response.text[: MAX_LENGTH - len(get_diff_prompt(""))]
 
-            prompt = get_code_prompt(code)
+            prompt = get_diff_prompt(code)
 
             messages.append({"role": "user", "content": prompt})
 

@@ -12,7 +12,7 @@ def get_system_prompt() -> str:
     """
 
 
-def get_code_prompt(code: str) -> str:
+def get_diff_prompt(code: str) -> str:
     return f"""
     # Code Review Prompt
 
