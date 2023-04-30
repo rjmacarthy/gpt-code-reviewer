@@ -17,7 +17,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 user = config["user"]
 repositories = config["repositories"]
 MODEL_ENGINE = config["model_engine"]
-MAX_LENGTH = 3500
+MAX_LENGTH = 2500
 
 console = Console()
 encoding = tiktoken.encoding_for_model(MODEL_ENGINE)
