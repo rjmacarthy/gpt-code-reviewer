@@ -36,7 +36,7 @@ def send_system_message(messages):
     return response
 
 
-def get_prompt(repository, pull_request, accept="application/vnd.github.v3.diff"):
+def fetch_data(repository, pull_request, accept="application/vnd.github.v3.diff"):
     url = f"https://api.github.com/repos/{user}/{repository}/pulls/{pull_request}"
     headers = {"Accept": accept, "Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers, timeout=10)
@@ -80,7 +80,7 @@ def review():
     send_system_message(messages)
     console.print("Skynet loaded!")
 
-    data = get_prompt(repository, pull_request, "application/vnd.github.v3+json")
+    data = fetch_data(repository, pull_request, "application/vnd.github.v3+json")
     messages.append({"role": "user", "content": data.json()["body"]})
     messages.append({"role": "user", "content": data.json()["title"]})
 
@@ -101,7 +101,7 @@ def review():
         if user_input == "n":
             messages = [{"role": "system", "content": get_system_prompt()}]
             repository, pull_request = get_repo_and_pr()
-            data = get_prompt(
+            data = fetch_data(
                 repository, pull_request, "application/vnd.github.v3+json"
             )
             messages.append({"role": "user", "content": data.json()["body"]})
@@ -110,7 +110,7 @@ def review():
             continue
 
         if user_input == "r":
-            response = get_prompt(repository, pull_request)
+            response = fetch_data(repository, pull_request)
 
             code = response.text[: MAX_LENGTH - len(get_code_prompt(""))]
 
