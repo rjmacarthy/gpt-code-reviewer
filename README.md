@@ -8,8 +8,9 @@ The script requires access to a GitHub account and an OpenAI API key.
 
 Set environment variables:
 
-GITHUB_TOKEN  - optional for authentication
-OPENAI_API_KEY - required to access gpt
+`GITHUB_TOKEN`  - optional for authentication
+
+`OPENAI_API_KEY` - required to access gpt
 
 ## Usage
 
