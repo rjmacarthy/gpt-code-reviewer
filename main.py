@@ -3,6 +3,7 @@ import openai
 import requests
 import yaml
 import tiktoken
+import sys
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -84,6 +85,14 @@ def get_repo_and_pr() -> tuple:
 
     return repository, pull_request
 
+def add_message(messages, message: str, role, pr: str):
+    messages.append({"role": role, "content": message})
+    
+    if not os.path.exists("./transcripts"):
+        os.makedirs("./transcripts")
+    
+    with open(f"./transcripts/pr{pr}.txt", "a") as f:
+        f.write(message + "\n")
 
 def review():
     repository, pull_request = get_repo_and_pr()
@@ -135,11 +144,11 @@ def review():
 
             prompt = get_diff_prompt(get_truncated_diff(response.text, num_template_tokens))
 
-            messages.append({"role": "user", "content": prompt})
-
+            add_message(messages, prompt, "user", pull_request)
+            
         if user_input:
             console.print("Thinking...")
-            messages.append({"role": "user", "content": user_input})
+            add_message(messages, user_input, "user", pull_request)
 
         completion = openai.ChatCompletion.create(
             model=MODEL_ENGINE,
@@ -147,10 +156,10 @@ def review():
         )
 
         reply = completion["choices"][0]["message"]["content"]
+        
         console.print(Markdown("🤖: "))
         console.print(Markdown(reply))
-        messages.append({"role": "assistant", "content": reply})
-
+        add_message(messages, reply, "assistant", pull_request)
 
 if __name__ == "__main__":
     review()

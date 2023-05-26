@@ -14,8 +14,6 @@ def get_system_prompt() -> str:
 
 def get_diff_prompt(code: str) -> str:
     return f"""
-    # Code Review Prompt
-
     As a highly skilled software engineer, review the following code:
 
     ```
