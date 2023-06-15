@@ -85,13 +85,13 @@ def get_repo_and_pr() -> tuple:
 
     return repository, pull_request
 
-def add_message(messages, message: str, role, pr: str):
+def add_message(messages, message: str, role, pr: str, repository):
     messages.append({"role": role, "content": message})
     
     if not os.path.exists("./transcripts"):
         os.makedirs("./transcripts")
     
-    with open(f"./transcripts/pr{pr}.txt", "a") as f:
+    with open(f"./transcripts/{pr}-{repository}.txt", "a") as f:
         f.write(message + "\n")
 
 def review():
@@ -104,9 +104,8 @@ def review():
 
     messages = [{"role": "system", "content": get_system_prompt()}]
 
-    console.print("Loading Skynet...")
-    send_system_message(messages)
-    console.print("Skynet loaded!")
+    if config['model_engine'] == 'gpt4':
+        send_system_message(messages)
 
     data = fetch_data(repository, pull_request, "application/vnd.github.v3+json")
     messages.append({"role": "user", "content": data.json()["body"]})
@@ -144,11 +143,11 @@ def review():
 
             prompt = get_diff_prompt(get_truncated_diff(response.text, num_template_tokens))
 
-            add_message(messages, prompt, "user", pull_request)
+            add_message(messages, prompt, "user", pull_request, repository)
             
         if user_input:
             console.print("Thinking...")
-            add_message(messages, user_input, "user", pull_request)
+            add_message(messages, user_input, "user", pull_request, repository)
 
         completion = openai.ChatCompletion.create(
             model=MODEL_ENGINE,
@@ -159,7 +158,7 @@ def review():
         
         console.print(Markdown("🤖: "))
         console.print(Markdown(reply))
-        add_message(messages, reply, "assistant", pull_request)
+        add_message(messages, reply, "assistant", pull_request, repository)
 
 if __name__ == "__main__":
     review()
