@@ -3,7 +3,6 @@ import openai
 import requests
 import yaml
 import tiktoken
-import sys
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -11,17 +10,17 @@ from rich.markdown import Markdown
 
 from prompts import get_diff_prompt, get_system_prompt
 
-
 config = yaml.safe_load(open("config.yaml", "r", encoding="utf-8"))
+
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-openai.api_key = os.getenv("OPENAI_API_KEY")
-user = config["user"]
-repositories = config["repositories"]
-MODEL_ENGINE = config["model_engine"]
 MAX_LENGTH = 2500
+MODEL_ENGINE = config["model_engine"]
 
 console = Console()
 encoding = tiktoken.encoding_for_model(MODEL_ENGINE)
+openai.api_key = os.getenv("OPENAI_API_KEY")
+repositories = config["repositories"]
+user = config["user"]
 
 
 def count_tokens(string: str) -> int:
@@ -85,14 +84,16 @@ def get_repo_and_pr() -> tuple:
 
     return repository, pull_request
 
+
 def add_message(messages, message: str, role, pr: str, repository):
     messages.append({"role": role, "content": message})
-    
+
     if not os.path.exists("./transcripts"):
         os.makedirs("./transcripts")
-    
+
     with open(f"./transcripts/{pr}-{repository}.md", "a") as f:
         f.write(role + "\n" + message + "\n")
+
 
 def review():
     repository, pull_request = get_repo_and_pr()
@@ -104,7 +105,7 @@ def review():
 
     messages = [{"role": "system", "content": get_system_prompt()}]
 
-    if config['model_engine'] == 'gpt4':
+    if config["model_engine"] == "gpt4":
         send_system_message(messages)
 
     data = fetch_data(repository, pull_request, "application/vnd.github.v3+json")
@@ -141,10 +142,12 @@ def review():
 
             num_template_tokens = count_tokens(get_diff_prompt(""))
 
-            prompt = get_diff_prompt(get_truncated_diff(response.text, num_template_tokens))
+            prompt = get_diff_prompt(
+                get_truncated_diff(response.text, num_template_tokens)
+            )
 
             add_message(messages, prompt, "user", pull_request, repository)
-            
+
         if user_input:
             console.print("Thinking...")
             add_message(messages, user_input, "user", pull_request, repository)
@@ -155,10 +158,11 @@ def review():
         )
 
         reply = completion["choices"][0]["message"]["content"]
-        
+
         console.print(Markdown("🤖: "))
         console.print(Markdown(reply))
         add_message(messages, reply, "assistant", pull_request, repository)
+
 
 if __name__ == "__main__":
     review()
