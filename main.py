@@ -91,8 +91,8 @@ def add_message(messages, message: str, role, pr: str, repository):
     if not os.path.exists("./transcripts"):
         os.makedirs("./transcripts")
     
-    with open(f"./transcripts/{pr}-{repository}.txt", "a") as f:
-        f.write(message + "\n")
+    with open(f"./transcripts/{pr}-{repository}.md", "a") as f:
+        f.write(role + "\n" + message + "\n")
 
 def review():
     repository, pull_request = get_repo_and_pr()
