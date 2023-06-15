@@ -28,6 +28,8 @@ The script will prompt you to select a repository and pull request to review. Yo
 
 The language model will provide suggestions and feedback based on your input, and you can continue to review the code until you are finished.
 
+Transcripts of the conversation will be saved as a markdown file for reference.
+
 ## License
 
 This script is licensed under the MIT License. See the LICENSE file for details.
