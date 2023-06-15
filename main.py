@@ -105,7 +105,7 @@ def review():
 
     messages = [{"role": "system", "content": get_system_prompt()}]
 
-    if config["model_engine"] == "gpt4":
+    if MODEL_ENGINE == "gpt4":
         send_system_message(messages)
 
     data = fetch_data(repository, pull_request, "application/vnd.github.v3+json")
