@@ -33,7 +33,7 @@ Transcripts of the conversation will be saved as a markdown file for reference.
 ## SudoLang
 
 A wild `sudo` version has appeared in this repository see the follwing link on how to use it.
-https://github.com/paralleldrive/sudolang-llm-support/blob/main/sudolang.sudo.md
+https://github.com/paralleldrive/sudolang-llm-support
 
 ## License
 
