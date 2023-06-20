@@ -57,7 +57,8 @@ CodeReviewer {
   /review [unidiff] [prId] - Review a pull request
   /transcript [prId] - Get a transcript of a code review
   /list - List all pull requests
+  /help - List all commands and their usage breifly
 }
 
 
-echo("Welcome to code reviewer enter a unidiff, pr, or id to get started e.g. /review unidiff 100")
+echo("Welcome to code reviewer enter a command or type /help for a list of commands")
