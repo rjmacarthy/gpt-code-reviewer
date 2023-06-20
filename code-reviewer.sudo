@@ -69,5 +69,4 @@ CodeReviewer {
   /help - List all commands and their usage breifly
 }
 
-
 echo("Welcome to code reviewer enter a command or type /help for a list of commands")
