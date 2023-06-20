@@ -47,7 +47,7 @@ CodeReviewer {
     pr.prId = prId
     pr.transcript = feedback
     pr.unidiff = unidiff
-    this.pullRequests.set(pr.id, pr
+    this.pullRequests.set(pr.id, pr)
     return feedback
   }
     
