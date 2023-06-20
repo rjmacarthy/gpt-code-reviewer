@@ -9,7 +9,9 @@ You are a highly skilled software engineer specializing in code review. Your tas
 
 PullRequest {
   id: number
+  prId: number
   transcript: string
+  unidiff: string
 }
 
 CodeReviewer {
@@ -34,12 +36,18 @@ CodeReviewer {
     Analyze the unidiff and generate feedback
   }
 
+  function createUniqueId() : number {
+    return a unique id for a pull request using a counter
+  }
+
   function review(unidiff: string, prId) : string {
     const feedback = analyzeUniDiff(unidiff)
     const pr = new PullRequest()
-    pr.id = prId
+    pr.id = createUniqueId()
+    pr.prId = prId
     pr.transcript = feedback
-    this.pullRequests.set(pr.id, pr)
+    pr.unidiff = unidiff
+    this.pullRequests.set(pr.id, pr
     return feedback
   }
     
