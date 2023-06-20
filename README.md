@@ -30,7 +30,7 @@ The language model will provide suggestions and feedback based on your input, an
 
 Transcripts of the conversation will be saved as a markdown file for reference.
 
-# SudoLang
+## SudoLang
 
 A wild `sudo` version has appeared in this repository see the follwing link on how to use it.
 See https://github.com/paralleldrive/sudolang-llm-support/blob/main/sudolang.sudo.md
