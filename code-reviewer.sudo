@@ -42,7 +42,7 @@ CodeReviewer {
   }
 
   function generateName(unidiff: string) : string {
-    return a name for a pull request using the unidif as a guide
+    return a name for a pull request using the unidiff as a guide
   }
 
   function review(unidiff: string, prId: number) : string {
