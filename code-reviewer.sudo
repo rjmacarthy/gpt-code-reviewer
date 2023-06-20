@@ -40,7 +40,7 @@ CodeReviewer {
     return a unique id for a pull request using a counter
   }
 
-  function review(unidiff: string, prId) : string {
+  function review(unidiff: string, prId: number) : string {
     const feedback = analyzeUniDiff(unidiff)
     const pr = new PullRequest()
     pr.id = createUniqueId()
