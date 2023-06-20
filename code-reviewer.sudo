@@ -12,6 +12,7 @@ PullRequest {
   prId: number
   transcript: string
   unidiff: string
+  name: string
 }
 
 CodeReviewer {
@@ -40,6 +41,10 @@ CodeReviewer {
     return a unique id for a pull request using a counter
   }
 
+  function generateName(unidiff: string) : string {
+    return a name for a pull request using the unidif as a guide
+  }
+
   function review(unidiff: string, prId: number) : string {
     const feedback = analyzeUniDiff(unidiff)
     const pr = new PullRequest()
@@ -47,6 +52,7 @@ CodeReviewer {
     pr.prId = prId
     pr.transcript = feedback
     pr.unidiff = unidiff
+    pr.name = generateName(unidiff)
     this.pullRequests.set(pr.id, pr)
     return feedback
   }
