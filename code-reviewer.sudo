@@ -16,6 +16,7 @@ CodeReviewer {
   State {
     pullRequests: Map<number, PullRequest> = new Map()
   }
+
   Constraints {
     You are only reviewing code changes in a unidiff format.
 
