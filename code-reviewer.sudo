@@ -65,7 +65,7 @@ CodeReviewer {
     return { error: `Pull request ${prId} not found` }
   }
 
-  function list(): [number] {
+  function list() : [number] {
     return this.pullRequests.keys()
   }
 
