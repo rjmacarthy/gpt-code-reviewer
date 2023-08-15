@@ -1,7 +1,8 @@
 repositories: [
-  "repository1",
-  "repository2",
-  "repository3"
+  "gpt-code-reviewer",
+  "quintus",
+  "wiffy",
+  "string-tokeniser"
 ]
 user: "rjmacarthy"
 model_engine: "gpt-4"
