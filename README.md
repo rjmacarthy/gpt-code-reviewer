@@ -20,15 +20,19 @@ Clone the repository and navigate to its directory in your terminal. Then, run t
 
 Edit `config.yaml` to suit your needs.
 
-Run this command to start the application.
+Run this command to start the application and chat with GPT about your pull requests.
 
-`python3 main.py`
+`python chat.py`
 
 The script will prompt you to select a repository and pull request to review. You will then be prompted to enter 'r' to review the code, 'q' to quit, 'h' for help, and 'n' to review a different pull request.
 
 The language model will provide suggestions and feedback based on your input, and you can continue to review the code until you are finished.
 
 Transcripts of the conversation will be saved as a markdown file for reference.
+
+# API
+
+You can also host gpt-code-reviewer as an api using `python api.py`, see `api.py` for the list of routes.
 
 ## SudoLang
 
