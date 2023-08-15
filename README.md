@@ -30,7 +30,7 @@ The language model will provide suggestions and feedback based on your input, an
 
 Transcripts of the conversation will be saved as a markdown file for reference.
 
-# API
+## API
 
 You can also host gpt-code-reviewer as an api using `python api.py`, see `api.py` for the list of routes.
 
