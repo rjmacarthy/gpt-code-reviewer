@@ -1,4 +1,5 @@
 repositories: [
+  "twinny",
   "gpt-code-reviewer",
   "quintus",
   "wiffy",
