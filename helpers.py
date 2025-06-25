@@ -81,6 +81,6 @@ def fetch_repository_data(
     repository: str, pull_request: str, accept="application/vnd.github.v3.diff"
 ) -> requests.Response:
     url = f"{github_repository_base_url}/{user}/{repository}/pulls/{pull_request}"
-    headers = {"Accept": accept, "Authorization": f"Bearer {GITHUB_TOKEN}"}
+    headers = {"Accept": accept, "Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers, timeout=10)
     return response
