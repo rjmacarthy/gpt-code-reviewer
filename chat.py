@@ -30,8 +30,6 @@ def chat():
     data = fetch_repository_data(
         repository, pull_request, "application/vnd.github.v3+json"
     )
-    print("DEBUG: GitHub response:", data.status_code)
-    print("DEBUG: GitHub response body:", data.json())
     add_message(messages, data.json()["body"], "user", pull_request, repository)
     add_message(messages, data.json()["title"], "user", pull_request, repository)
 
